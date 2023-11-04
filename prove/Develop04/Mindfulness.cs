@@ -1,82 +1,3 @@
-class MindfulnessActivity
-{
-    protected string activityName;
-    protected string description;
-    protected int duration;
-
-    public MindfulnessActivity(string name, string desc)
-    {
-        activityName = name;
-        description = desc;
-    }
-
-    public void StartActivity(int duration)
-    {
-        this.duration = duration;
-        Console.WriteLine($"Starting {activityName} - {description}");
-        Console.WriteLine($"Duration: {duration} seconds");
-        Console.WriteLine("Prepare to begin...");
-        Thread.Sleep(3000); // Pause for 3 seconds before starting
-    }
-
-    public void EndActivity()
-    {
-        Console.WriteLine($"Good job! You have completed {activityName}.");
-        Console.WriteLine($"Activity duration: {duration} seconds");
-        Console.WriteLine("Finishing...");
-        Thread.Sleep(3000); // Pause for 3 seconds before finishing
-    }
-}
-
-class BreathingActivity : MindfulnessActivity
-{
-    public BreathingActivity() : base("Breathing Activity", "Relax by deep breathing")
-    {
-    }
-
-    public void StartBreathingActivity()
-    {
-        StartActivity(10); // Replace '10' with the user's specified duration
-        for (int i = 0; i < duration; i++)
-        {
-            if (i % 2 == 0)
-                Console.WriteLine("Breathe in...");
-            else
-                Console.WriteLine("Breathe out...");
-            Thread.Sleep(2000); // Pause for 2 second
-        }
-        EndActivity();
-    }
-}
-
-class ReflectionActivity : MindfulnessActivity
-{
-    public ReflectionActivity() : base("Reflection Activity", "Reflect on past experiences")
-    {
-    }
-
-    public void StartReflectionActivity()
-    {
-        StartActivity(20); // Replace '20' with the user's specified duration
-        // Add code to display prompts and questions here
-        EndActivity();
-    }
-}
-
-class ListingActivity : MindfulnessActivity
-{
-    public ListingActivity() : base("Listing Activity", "List positive things in your life")
-    {
-    }
-
-    public void StartListingActivity()
-    {
-        StartActivity(15); // Replace '15' with the user's specified duration
-        // Add code to display prompts and allow the user to list items
-        EndActivity();
-    }
-}
-
 class Program
 {
     static void Main(string[] args)
@@ -91,30 +12,160 @@ class Program
 
             int choice = int.Parse(Console.ReadLine());
 
+            if (choice == 4)
+                break;
+
+            Console.Write("Enter the duration (in seconds): ");
+            int duration = int.Parse(Console.ReadLine());
+
             switch (choice)
             {
                 case 1:
-                    BreathingActivity breathingActivity = new BreathingActivity();
-                    breathingActivity.StartBreathingActivity();
+                    var breathingActivity = new BreathingActivity(duration);
+                    breathingActivity.PerformBreathingActivity();
                     break;
 
                 case 2:
-                    ReflectionActivity reflectionActivity = new ReflectionActivity();
-                    reflectionActivity.StartReflectionActivity();
+                    var reflectionActivity = new ReflectionActivity(duration);
+                    reflectionActivity.PerformReflectionActivity();
                     break;
 
                 case 3:
-                    ListingActivity listingActivity = new ListingActivity();
-                    listingActivity.StartListingActivity();
+                    var listingActivity = new ListingActivity(duration);
+                    listingActivity.PerformListingActivity();
                     break;
 
-                case 4:
-                    Environment.Exit(0);
-
                 default:
-                    Console.WriteLine("Invalid choice. Please select a valid option.");
+                    Console.WriteLine("Invalid choice. Please try again.");
                     break;
             }
         }
     }
 }
+
+class BreathingActivity : MindfulnessActivity
+{
+    public BreathingActivity(int duration) : base(duration) { }
+
+    public void PerformBreathingActivity()
+    {
+        Start();
+        Console.WriteLine("This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.");
+        ShowCountdown();
+
+        Console.WriteLine("\nBreathe in...");
+        ShowCountdown();
+
+        Console.WriteLine("\nBreathe out...");
+        ShowCountdown();
+
+        End();
+    }
+}
+
+class ReflectionActivity : MindfulnessActivity
+{
+    private static List<string> prompts = new List<string>
+    {
+        "Think of a time when you stood up for someone else.",
+        "Think of a time when you did something really difficult.",
+        "Think of a time when you helped someone in need.",
+        "Think of a time when you did something truly selfless."
+    };
+
+    public ReflectionActivity(int duration) : base(duration) { }
+
+    public void PerformReflectionActivity()
+    {
+        Start();
+        Console.WriteLine("This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.");
+        ShowCountdown();
+
+        Random random = new Random();
+        for (int i = 0; i < duration; i++)
+        {
+            string prompt = prompts[random.Next(prompts.Count)];
+            Console.WriteLine(prompt);
+            ShowCountdown();
+
+            private List<string> reflectionQuestions;
+
+    public ReflectionActivity(int duration) : base(duration)
+    {
+        reflectionQuestions = new List<string>
+        {
+            "Why was this experience meaningful to you?",
+            "Have you ever done anything like this before?",
+            "How did you get started?",
+            "How did you feel when it was complete?",
+            "What made this time different than other times when you were not as successful?",
+            "What is your favorite thing about this experience?",
+            "What could you learn from this experience that applies to other situations?",
+            "What did you learn about yourself through this experience?",
+            "How can you keep this experience in mind in the future?"
+        };
+    }
+
+        }
+
+        End();
+    }
+}
+
+class ListingActivity : MindfulnessActivity
+{
+    private static List<string> prompts = new List<string>
+    {
+        "Who are people that you appreciate?",
+        "What are personal strengths of yours?",
+        "Who are people that you have helped this week?",
+        "When have you felt the Holy Ghost this month?",
+        "Who are some of your personal heroes?"
+    };
+
+    public ListingActivity(int duration) : base(duration) { }
+
+    public void PerformListingActivity()
+    {
+        Start();
+        Console.WriteLine("This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.");
+        ShowCountdown();
+
+        Random random = new Random();
+        for (int i = 0; i < duration; i++)
+        {
+            string prompt = prompts[random.Next(prompts.Count)];
+            Console.WriteLine(prompt);
+            ShowCountdown();
+
+            
+            public void PerformReflectionActivity()
+{
+        Start();
+        Console.WriteLine("This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.");
+        ShowCountdown();
+
+        Random random = new Random();
+        for (int i = 0; i < duration; i++)
+        {
+            string prompt = prompts[random.Next(prompts.Count)];
+            Console.WriteLine(prompt);
+            ShowCountdown();
+
+            foreach (string question in reflectionQuestions)
+            {
+                Console.WriteLine(question);
+                ShowCountdown();
+            }
+        }
+
+        End();
+    }
+
+        }
+
+        End();
+    }
+}
+
+
