@@ -263,5 +263,3 @@ class EternalQuestManager
         }
     }
 }
-
-// Note: Add comments in
